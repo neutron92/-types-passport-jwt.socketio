@@ -1,4 +1,5 @@
+import { StrategyOptions, VerifyCallback } from "passport-jwt";
 export default class passportSocketIoTs {
     constructor();
-    authorize(options: any, verify: any, cb?: any): (socket: any, accept: any) => void;
+    authorize(opt: StrategyOptions, verify: VerifyCallback, cb?: any): (socket: any, accept: any) => void;
 }

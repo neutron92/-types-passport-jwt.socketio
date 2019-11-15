@@ -5,10 +5,10 @@ var passportSocketIoTs = /** @class */ (function () {
     function passportSocketIoTs() {
     }
     ;
-    passportSocketIoTs.prototype.authorize = function (options, verify, cb) {
+    passportSocketIoTs.prototype.authorize = function (opt, verify, cb) {
         if (cb === void 0) { cb = null; }
         // --- Begin strategy augmentation ala passport
-        var strategy = new passport_jwt_1.Strategy(options, verify);
+        var strategy = new passport_jwt_1.Strategy(opt, verify);
         return function (socket, accept) {
             strategy.success = function success(user) {
                 socket.handshake.user = user;

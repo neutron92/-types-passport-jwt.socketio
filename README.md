@@ -1,12 +1,12 @@
-A [Socket.IO](https://socket.io/) middleware for authenticating with a [JSON Web Token](http://jwt.io) based on [passport-jwt](https://github.com/themikenicholson/passport-jwt).
+A [Socket.IO](https://socket.io/) middleware for authenticating with a [JSON Web Token](http://jwt.io) based on [passport-jwt](https://github.com/themikenicholson/passport-jwt) and [typeScript](https://github.com/microsoft/TypeScript) .
 
 This module lets you authenticate socket.io endpoints using a JSON web token. It is
 intended to be used to secure endpoints without sessions.
 
 ## Example usage
 
-
-```javascript
+### Server
+```TypeScript
 // Initialize our modules
 import socketIO from 'socket.io';
 import passportSocketIoTs from "passport-jwt.socketio.ts";
@@ -21,19 +21,13 @@ const options = {
   secretOrKey: secret
 }
 
-const passportSocketJWT:passportSocketIoTs = new passportSocketIoTs(options, (jwtPayload : any, done : any) {
-  // token is valid 
-  // we still can verify the token
-    // jwtPayload contains the user ID
-  // the user passed is set to socket.request.user
+let passSocketIo: passportSocketIoTs = new passportSocketIoTs();
 
-  //You can do what you want
-}))
 
 // set the authorization middleware
-io.use(passportSocketJWT.authorize(socket, accept));
-
-//if token is valid it will access here 
+ ioSocket.use(passSocketIo.authorize(options,verify,(err: any) => {
+    // calllback to log errors
+ }));
 
 ioSocket.on('connection', function (socket) {
     // Connection now authenticated to receive further events
@@ -44,10 +38,46 @@ ioSocket.on('connection', function (socket) {
 
 ```
 
+### Client
+```html
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+</head>
+
+<body>
+    <button onClick="sendMsg()">Hit Me</button>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
+    <script>
+        const jwt = 'eyJhbGciOiJIU...';
+
+        const socket = io.connect('http://localhost:3001', {
+            query: {
+                token: jwt // your token
+            }
+        });
+
+        function sendMsg() {
+            socket.emit('messages', 'hello!');
+            socket.on('messages', (data) => {
+                console.log('authenticate', data)
+            });
+        }
+    </script>
+</body>
+
+</html>
+
+```
+
 ## Tests
 
     npm install
-    npm test
 
 ## Inspiration
 

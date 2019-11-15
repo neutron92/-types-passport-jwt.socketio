@@ -1,12 +1,12 @@
-import {ExtractJwt, Strategy} from "passport-jwt";
+import {ExtractJwt, Strategy, StrategyOptions, VerifyCallback} from "passport-jwt";
 
 export default class passportSocketIoTs {
 
     constructor() {};
 
-    public authorize(options : any, verify : any, cb: any = null) {
+    public authorize(opt: StrategyOptions, verify: VerifyCallback, cb: any = null) {
         // --- Begin strategy augmentation ala passport
-        let strategy : Strategy = new Strategy(options, verify);
+        let strategy : Strategy = new Strategy(opt, verify);
 
         return (socket : any, accept : any) => {
             strategy.success = function success(user) {
@@ -20,7 +20,7 @@ export default class passportSocketIoTs {
                 cb(new Error(info));
             }
 
-            strategy.error = (error: any)  => {
+            strategy.error = (error: Error)  => {
                 accept(error);
                 cb(error);
             }
