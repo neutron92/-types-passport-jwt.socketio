@@ -23,6 +23,12 @@ const options = {
 
 let passSocketIo: passportSocketIoTs = new passportSocketIoTs();
 
+function verify(jwtPayload : any, done : any) {
+    // token is valid we still can verify the token
+    console.log('jwtPayload', jwtPayload)
+    // the user passed is set to socket.request.user
+    done(null, jwtPayload)
+}
 
 // set the authorization middleware
  ioSocket.use(passSocketIo.authorize(options,verify,(err: any) => {
