@@ -1,4 +1,4 @@
-import {ExtractJwt, Strategy, StrategyOptions, VerifyCallback} from "passport-jwt";
+import {Strategy, StrategyOptions, VerifyCallback} from "passport-jwt";
 
 export default class passportSocketIoTs {
 
